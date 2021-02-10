@@ -8,7 +8,7 @@ class Gerenciador(models.Model):
     id_usuario = models.ForeignKey("accounts.Usuario", db_column='id_usuario', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id
+        return '{}'.format(self.id)
 
     class Meta:
         db_table = "gerenciador"
@@ -19,7 +19,7 @@ class Categoria(models.Model):
     tipo = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.nome
+        return '{}'.format(self.nome)
 
     class Meta:
         verbose_name_plural = "categorias"
@@ -37,7 +37,7 @@ class Receita(models.Model):
     id_categoria = models.ForeignKey(Categoria, db_column="id_categoria", on_delete=models.CASCADE)
 
     def  __str__(self):
-        return self.id + " - " + self.valor
+        return '{}'.format(self.id)
 
     class Meta:
         verbose_name_plural = "receitas"
@@ -55,7 +55,7 @@ class Despesa(models.Model):
     id_categoria = models.ForeignKey(Categoria, db_column="id_categoria", on_delete=models.CASCADE)
 
     def  __str__(self):
-        return self.id + " - " + self.valor
+        return '{}'.format(self.id)
 
     class Meta:
         verbose_name_plural = "despesas"

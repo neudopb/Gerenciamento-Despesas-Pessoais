@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gerenciador_create</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <input type="number" name="saldo" id="saldo" value="0">
+        <input type="number" name="receita_total" id="receita_total" value="0">
+        <input type="number" name="despesa_total" id="despesa_total" value="0">
+        <input type="number" name="id_usuario" id="id_usuario" value="{{ user.id }}">
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>

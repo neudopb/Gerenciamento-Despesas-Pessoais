@@ -8,6 +8,11 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="{% url 'accounts:logout' %}">Sair</a>
     <h1>INDEX</h1>
+    <p><a href="{% url 'gerenciador:listCategoria'%}">Categoria</a></p>
+    <p><a href="{% url 'gerenciador:listGerenciador'%}">Gerenciador</a></p>
+    <p><a href="{% url 'gerenciador:listReceita'%}">Receita</a></p>
+    <p><a href="{% url 'gerenciador:listDespesa'%}">Despesa</a></p>
 </body>
 </html>
