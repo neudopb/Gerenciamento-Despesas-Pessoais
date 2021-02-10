@@ -5,7 +5,7 @@ class Gerenciador(models.Model):
     saldo = models.DecimalField(max_digits=10, decimal_places=2)
     receita_total = models.DecimalField(max_digits=10, decimal_places=2)
     despesa_total = models.DecimalField(max_digits=10, decimal_places=2)
-    id_usuario = models.ForeignKey("accounts.CustomUsuario", on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey("accounts.Usuario", db_column='id_usuario', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -32,8 +32,9 @@ class Receita(models.Model):
     data = models.DateField()
     descricao = models.TextField(null=True, blank=True)
     receita_fixa = models.BooleanField(default=False)
-    id_gerenciador = models.ForeignKey(Gerenciador, on_delete=models.CASCADE)
-    id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    fixa_ativa = models.BooleanField(default=False)
+    id_gerenciador = models.ForeignKey(Gerenciador, db_column="id_gerenciador", on_delete=models.CASCADE)
+    id_categoria = models.ForeignKey(Categoria, db_column="id_categoria", on_delete=models.CASCADE)
 
     def  __str__(self):
         return self.id + " - " + self.valor
@@ -49,8 +50,9 @@ class Despesa(models.Model):
     data = models.DateField()
     descricao = models.TextField(null=True, blank=True)
     despesa_fixa = models.BooleanField(default=False)
-    id_gerenciador = models.ForeignKey(Gerenciador, on_delete=models.CASCADE)
-    id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    fixa_ativa = models.BooleanField(default=False)
+    id_gerenciador = models.ForeignKey(Gerenciador, db_column="id_gerenciador", on_delete=models.CASCADE)
+    id_categoria = models.ForeignKey(Categoria, db_column="id_categoria", on_delete=models.CASCADE)
 
     def  __str__(self):
         return self.id + " - " + self.valor

@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 class UsuarioManager(BaseUserManager):
-    use_in_migrations = True
 
     def _create_user(self, email, password, **extra_fields):
         if not email:
@@ -27,7 +26,7 @@ class UsuarioManager(BaseUserManager):
             raise ValueError('Superuser precisa ter is_staff=True')
         return self._create_user(email, password, **extra_fields)
 
-class CustomUsuario(AbstractUser):
+class Usuario(AbstractUser):
     email = models.EmailField('E-mail', unique=True)
     is_staff =models.BooleanField('Membro da equipe', default=True)
 
@@ -36,4 +35,7 @@ class CustomUsuario(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    class Meta:
+        db_table = "usuario"
     objects = UsuarioManager()
