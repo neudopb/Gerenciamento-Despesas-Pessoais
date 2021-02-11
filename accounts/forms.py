@@ -10,7 +10,7 @@ class UsuarioRegisterForm(UserCreationForm):
 
     class Meta:
         model = Usuario
-        fields = ('email', 'first_name', 'last_name')
+        fields = ('username', 'first_name', 'last_name')
 
     def Clean_password2(self):
         password1 = self.cleaned_data.get('password1')
@@ -22,6 +22,7 @@ class UsuarioRegisterForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password1'])
+        user.email = self.cleaned_data['username']
         if commit:
             user.save()
         return user

@@ -17,6 +17,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 @method_decorator(login_required, name='dispatch')
 class CategoriaCreate(LoginRequiredMixin, CreateView):
     model = Categoria
+    #form_class = CategoriaForm
     fields = '__all__'
     template_name = 'gerenciador/categoria_create.html'
     success_url = reverse_lazy('gerenciador:listCategoria')
