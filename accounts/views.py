@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from django.contrib import messages
 from django.urls import reverse
+from django.urls import reverse_lazy
 from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UsuarioRegisterForm
 from .models import Usuario
+from gerenciador.models import Gerenciador
 
 class LoginView(LoginView):
     template_name = 'accounts/login.html'
@@ -17,10 +21,18 @@ class LogoutView(LogoutView):
 
 class UserCreateView(CreateView):
     model = Usuario
-    success_url = 'login'
+    success_url = 'accounts:login'
     template_name = 'accounts/create.html'
     form_class = UsuarioRegisterForm
 
+    def form_valid(self, form):
+        self.usuario = form.save()
+        Gerenciador.objects.create(saldo=0, receita_total=0, despesa_total=0, id_usuario=self.usuario)
+        return HttpResponseRedirect(self.get_success_url())
+
     def get_success_url(self):
         messages.success(self.request, 'Usuário cadastrado com sucesso!')
-        return reverse(self.success_url)
+        return reverse_lazy(self.success_url)
+
+class ResetPassword(TemplateView):
+    template_name = "accounts/forgot-password.html"

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import Gerenciador, Categoria, Receita, Despesa
 from .forms import GerenciadorForm, CategoriaForm, ReceitaForm, DespesaForm
@@ -17,15 +18,14 @@ class IndexView(LoginRequiredMixin, TemplateView):
 @method_decorator(login_required, name='dispatch')
 class CategoriaCreate(LoginRequiredMixin, CreateView):
     model = Categoria
-    #form_class = CategoriaForm
-    fields = '__all__'
+    form_class = CategoriaForm
     template_name = 'gerenciador/categoria_create.html'
     success_url = reverse_lazy('gerenciador:listCategoria')
 
 @method_decorator(login_required, name='dispatch')
 class CategoriaUpdate(LoginRequiredMixin, UpdateView):
     model = Categoria
-    fields = '__all__'
+    form_class = CategoriaForm
     template_name = 'gerenciador/categoria_update.html'
     success_url = reverse_lazy('gerenciador:listCategoria')
 
@@ -46,14 +46,14 @@ class CategoriaDelete(LoginRequiredMixin, DeleteView):
 @method_decorator(login_required, name='dispatch')
 class GerenciadorCreate(LoginRequiredMixin, CreateView):
     model = Gerenciador
-    fields = '__all__'
+    form_class = GerenciadorForm
     template_name = 'gerenciador/gerenciador_create.html'
     success_url = reverse_lazy('gerenciador:listGerenciador')
 
 @method_decorator(login_required, name='dispatch')
 class GerenciadorUpdate(LoginRequiredMixin, UpdateView):
     model = Gerenciador
-    fields = '__all__'
+    form_class = GerenciadorForm
     template_name = 'gerenciador/gerenciador_update.html'
     success_url = reverse_lazy('gerenciador:listGerenciador')
 
@@ -74,14 +74,30 @@ class GerenciadorDelete(LoginRequiredMixin, DeleteView):
 @method_decorator(login_required, name='dispatch')
 class ReceitaCreate(LoginRequiredMixin, CreateView):
     model = Receita
-    fields = '__all__'
+    form_class = ReceitaForm
     template_name = 'gerenciador/receita_create.html'
-    success_url = reverse_lazy('gerenciador:listReceita')
+    success_url = 'gerenciador:listReceita'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["id_gerenc"] = Gerenciador.objects.get(id_usuario=self.request.user.id)
+        return context
+
+    def form_valid(self, form):
+        rec = form.save()
+        gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
+        rec_ttl = rec.valor + gerenc.receita_total
+        sald = rec.valor + gerenc.saldo
+        Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, receita_total=rec_ttl)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy(self.success_url)
 
 @method_decorator(login_required, name='dispatch')
 class ReceitaUpdate(LoginRequiredMixin, UpdateView):
     model = Receita
-    fields = '__all__'
+    form_class = ReceitaForm
     template_name = 'gerenciador/receita_update.html'
     success_url = reverse_lazy('gerenciador:listReceita')
 
@@ -102,14 +118,30 @@ class ReceitaDelete(LoginRequiredMixin, DeleteView):
 @method_decorator(login_required, name='dispatch')
 class DespesaCreate(LoginRequiredMixin, CreateView):
     model = Despesa
-    fields = '__all__'
+    form_class = DespesaForm
     template_name = 'gerenciador/despesa_create.html'
-    success_url = reverse_lazy('gerenciador:listDespesa')
+    success_url = 'gerenciador:listDespesa'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['id_gerenc'] = Gerenciador.objects.get(id_usuario=self.request.user.id)
+        return context
+
+    def form_valid(self, form):
+        desp = form.save()
+        gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
+        desp_ttl = desp.valor + gerenc.despesa_total
+        sald = gerenc.saldo - desp.valor
+        Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, despesa_total=desp_ttl)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy(self.success_url)
 
 @method_decorator(login_required, name='dispatch')
 class DespesaUpdate(LoginRequiredMixin, UpdateView):
     model = Despesa
-    fields = '__all__'
+    form_class = DespesaForm
     template_name = 'gerenciador/despesa_update.html'
     success_url = reverse_lazy('gerenciador:listDespesa')
 

@@ -1,5 +1,5 @@
 {% extends 'base_accounts.html' %}
-
+{% load static %}
 {% block title %}Login{% endblock title %}
 
 {% block content %}
@@ -9,7 +9,7 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                    <div class="col-lg-6 d-none d-lg-block bg-login-image"><img src="{% static 'img/img-login.jpg' %}" alt=""></div>
                     <div class="col-lg-6">
                         <div class="p-5">
                             <div class="text-center">
@@ -46,7 +46,7 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Esqueceu sua senha?</a>
+                                <a class="small" href="{% url 'accounts:mudar_senha' %}">Esqueceu sua senha?</a>
                             </div>
                             <div class="text-center">
                                 <a class="small" href="{% url 'accounts:cadastrar_usuario' %}">Crie a sua conta
