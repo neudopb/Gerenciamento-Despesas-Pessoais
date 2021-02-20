@@ -79,6 +79,7 @@
                         <h6 class="collapse-header">Receitas:</h6>
                         <a class="collapse-item" href="{% url 'gerenciador:createReceita' %}">Cadastrar</a>
                         <a class="collapse-item" href="#">Listar</a>
+                        <a class="collapse-item" href="#">Fixa</a>
                         <a class="collapse-item" href="#">Historico</a>
                     </div>
                 </div>
@@ -95,6 +96,7 @@
                         <h6 class="collapse-header">Despesas:</h6>
                         <a class="collapse-item" href="{% url 'gerenciador:createDespesa' %}">Cadastrar</a>
                         <a class="collapse-item" href="#">Listar</a>
+                        <a class="collapse-item" href="#">Fixa</a>
                         <a class="collapse-item" href="#">Historico</a>
                     </div>
                 </div>
@@ -245,7 +247,7 @@
                     <div class="modal-body">Selecione "Sair" abaixo se você deseja encerrar sua sessão.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="{% url 'accounts:logout' %}">Sair</a>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Sair</a>
                 </div>
             </div>
         </div>

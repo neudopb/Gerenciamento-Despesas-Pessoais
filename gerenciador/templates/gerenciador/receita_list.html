@@ -8,12 +8,12 @@
     <title>Receita_list</title>
 </head>
 <body>
-    {% for receita in list_receita %}
-        <label>{{ receita.descricao }} </label>
-        <a href="{% url 'gerenciador:updateReceita' receita.id %}">Update </a>
-        <a href="{% url 'gerenciador:deleteReceita' receita.id %}">Delete</a><br>
-    {% endfor %}
-    <br>
-    <a href="{% url 'gerenciador:createReceita' %}">Novo</a>
+{% for receita in list_receita %}
+<label>{{ receita.descricao }} </label>
+<a href="{% url 'gerenciador:updateReceita' receita.id %}">Update </a>
+<a href="{% url 'gerenciador:deleteReceita' receita.id %}">Delete</a><br>
+{% endfor %}
+<br>
+<a href="{% url 'gerenciador:createReceita' %}">Novo</a>
 </body>
 </html>

@@ -76,7 +76,7 @@ class ReceitaCreate(LoginRequiredMixin, CreateView):
     model = Receita
     form_class = ReceitaForm
     template_name = 'gerenciador/receita_create.html'
-    success_url = 'gerenciador:listReceita'
+    success_url = 'gerenciador:index'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -120,7 +120,7 @@ class DespesaCreate(LoginRequiredMixin, CreateView):
     model = Despesa
     form_class = DespesaForm
     template_name = 'gerenciador/despesa_create.html'
-    success_url = 'gerenciador:listDespesa'
+    success_url = 'gerenciador:index'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

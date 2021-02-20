@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
@@ -28,11 +29,20 @@ class UserCreateView(CreateView):
     def form_valid(self, form):
         self.usuario = form.save()
         Gerenciador.objects.create(saldo=0, receita_total=0, despesa_total=0, id_usuario=self.usuario)
+
+        send_mail(
+            'Cliente Cadastrado',
+            '%s, você foi cadastrado com sucesso.' % self.usuario.first_name,
+            'despess21@gmail.com',
+            [self.usuario.email],
+            fail_silently=False,
+        )
+
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         messages.success(self.request, 'Usuário cadastrado com sucesso!')
         return reverse_lazy(self.success_url)
 
-class ResetPassword(TemplateView):
+class PasswordResetView(TemplateView):
     template_name = "accounts/forgot-password.html"
