@@ -2,6 +2,72 @@
 
 {% block title %}Nova Receita{% endblock title %}
 
+{% block style %}
+<style type="text/css">
+    .check-radio {
+        position: relative;
+    }
+
+    .check-radio input {
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #eee;
+        width: 40px;
+        height: 15px;
+        border-radius: 10px;
+        box-shadow: inset 0 1px 5px rgba(0, 0, 0, .5);
+    }
+
+    .check-radio input:focus {
+        outline: none;
+        cursor: pointer;
+    }
+
+    .check-radio input:before {
+        content: '';
+        margin-top: -2.5px;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 2px #333, 0 2px 5px rgba(0, 0, 0, .5);
+        position: absolute;
+        left: 0;
+        transition: left .3s ease-out;
+        -webkit-transition: left .3s ease-out;
+    }
+
+    .check-radio input:after {
+        content: 'NO';
+        display: block;
+        margin-top: -2.5px;
+        left: 20px;
+        position: absolute;
+        font-size: 14px;
+        font-weight: bold;
+        transition: left .3s ease-out;
+        -webkit-transition: left .3s ease-out;
+        color: #666;
+    }
+
+    .check-radio input:checked {
+        background-color: lime;
+    }
+
+    .check-radio input:checked:before {
+        left: 22.5px;
+        box-shadow: inset 0 0 0 2px green, 0 2px 5px rgba(0, 0, 0, .5);
+    }
+
+    .check-radio input:checked:after {
+        content: 'YES';
+        left: 43.5px;
+        color: green;
+    }
+</style>
+{% endblock style %}
+
 {% block content %}
 <main>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -37,20 +103,30 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label class="small mb-1">Categoria</label>
-                                {{ form.id_categoria }}
+                                <select id="id_id_categoria" name="id_categoria" class="form-control" required>
+                                    <option value="" selected disabled>Selecione</option>
+                                    {% for categoria in TipoCategoria %}
+                                        <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <div class="form-group col-md-1"></div>
                             <div class="form-group col-md-2">
-                                <br><label class="mb-1">Recebido</label><br>
-                                {{ form.recebido }}
+                                <div class="check-radio">
+                                    <br><label id="lab_recebido" class="mb-1">Recebido</label><br>
+                                    {{ form.recebido }}
+                                </div>
                             </div>
                             <div class="form-group col-md-2">
-                                <br><label class="mb-1">Receita Fixa</label><br>
-                                {{ form.receita_fixa }}
+                                <div class="check-radio">
+                                    <br><label id="lab_fixa" class="mb-1">Receita Fixa</label><br>
+                                    {{ form.receita_fixa }}
+                                </div>
                             </div>
                         </div>
                         {{ form.fixa_ativa }}
                         {{ form.id_gerenciador }}
+
                         <button class="btn btn-primary" type="submit">Salvar</button>
                     </form>
                 </div>
@@ -66,14 +142,15 @@
         $("#id_valor").addClass("form-control").attr("placeholder", "R$ 0.00");
         $("#id_data").addClass("form-control").attr("type", "date");
         $("#id_descricao").addClass("form-control").attr("rows", 2).attr("placeholder", "Descrição da Receita");
-        $("#id_id_categoria").addClass("form-control");
+        $("#lab_recebido").attr("for", "id_recebido");
+        $("#lab_fixa").attr("for", "id_receita_fixa");
         $("#id_id_gerenciador").attr("hidden", true);
         $("#id_id_gerenciador").val($("#gerenc").val());
         $("#id_fixa_ativa").attr("hidden", true);
-
+        $("#id_fixa_ativa").attr("hidden", true);
     });
 
-    $("#id_receita_fixa").click(function (){
+    $("#id_receita_fixa").click(function () {
         if ($(this).prop("checked")) {
             $("#id_fixa_ativa").prop("checked", true);
         } else {
