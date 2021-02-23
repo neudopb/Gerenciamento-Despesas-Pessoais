@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
@@ -8,7 +7,27 @@ from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import Gerenciador, Categoria, Receita, Despesa
 from .forms import GerenciadorForm, CategoriaForm, ReceitaForm, DespesaForm
+from .serializers import CategoriaSerializer, GerenciadorSerializer, ReceitaSerializer, DespesaSerializer
+from rest_framework import viewsets
 
+#API's
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class GerenciadorViewSet(viewsets.ModelViewSet):
+    queryset = Gerenciador.objects.all()
+    serializer_class = GerenciadorSerializer
+
+class ReceitaViewSet(viewsets.ModelViewSet):
+    queryset = Receita.objects.all()
+    serializer_class = ReceitaSerializer
+
+class DespesaViewSet(viewsets.ModelViewSet):
+    queryset = Despesa.objects.all()
+    serializer_class = DespesaSerializer
+
+#INDEX
 @method_decorator(login_required, name='dispatch')
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name ='gerenciador/index.html'

@@ -1,13 +1,22 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import SimpleRouter
 from .views import IndexView
 from .views import CategoriaCreate, CategoriaList, CategoriaUpdate, CategoriaDelete
 from .views import GerenciadorCreate, GerenciadorList, GerenciadorUpdate, GerenciadorDelete
 from .views import ReceitaCreate, ReceitaList, ReceitaUpdate, ReceitaDelete
 from .views import DespesaCreate, DespesaList, DespesaUpdate, DespesaDelete
+from .views import CategoriaViewSet, GerenciadorViewSet, ReceitaViewSet, DespesaViewSet
 
 app_name = 'gerenciador'
 
+router = SimpleRouter()
+router.register(r'api/categoria', CategoriaViewSet)
+router.register(r'api/gerenciador', GerenciadorViewSet)
+router.register(r'api/receita', ReceitaViewSet)
+router.register(r'api/despesa', DespesaViewSet)
+
 urlpatterns = [
+    path('', include(router.urls)),
     path('', IndexView.as_view(), name='index'),
     path('categoria/create', CategoriaCreate.as_view(), name='createCategoria'),
     path('categoria/list', CategoriaList.as_view(), name='listCategoria'),
