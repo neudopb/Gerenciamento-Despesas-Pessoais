@@ -1,16 +1,17 @@
+
 {% extends 'base.html' %}
 
-{% block title %}Listagem de Receitas{% endblock title %}
+{% block title %}Listagem de Despesas{% endblock title %}
 
 {% block content %}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-2 text-gray-800">Receita</h1>
+    <h1 class="h3 mb-2 text-gray-800">Despesa</h1>
 </div>
 <hr class="mt-0 mb-4"/>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Listagem das Receitas Fixas</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Listagem das Despesas Fixas</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -22,7 +23,7 @@
                         <th>Categoria</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th>Recebido</th>
+                        <th>Pago</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -36,14 +37,14 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    {% for receita in list_receita %}
+                    {% for despesa in list_despesa %}
                         <tr>
-                            <td>{{ receita.id }}</td>
-                            <td title="{{ receita.descricao }}">{{ receita.descricao|truncatechars:25 }}</td>
-                            <td>{{ receita.id_categoria.nome }}</td>
-                            <td>{{ receita.valor }}</td>
-                            <td>{{ receita.data }}</td>
-                            {% if receita.recebido %}
+                            <td>{{ despesa.id }}</td>
+                            <td title="{{ despesa.descricao }}">{{ despesa.descricao|truncatechars:25 }}</td>
+                            <td>{{ despesa.id_categoria.nome }}</td>
+                            <td>{{ despesa.valor }}</td>
+                            <td>{{ despesa.data }}</td>
+                            {% if despesa.pago %}
                                 <td><label class="badge badge-primary">Sim</label></td>
                             {% else %}
                                 <td><label class="badge badge-danger">Não</label></td>

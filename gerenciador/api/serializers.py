@@ -1,5 +1,5 @@
-from .models import Categoria, Gerenciador, Receita, Despesa
 from rest_framework import serializers
+from ..models import Categoria, Gerenciador, Receita, Despesa
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
