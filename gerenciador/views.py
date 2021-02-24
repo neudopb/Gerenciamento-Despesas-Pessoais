@@ -12,18 +12,22 @@ from rest_framework import viewsets
 
 #API's
 class CategoriaViewSet(viewsets.ModelViewSet):
+    """API para CATEGORIA"""
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
 class GerenciadorViewSet(viewsets.ModelViewSet):
+    """API para GERENCIADOR"""
     queryset = Gerenciador.objects.all()
     serializer_class = GerenciadorSerializer
 
 class ReceitaViewSet(viewsets.ModelViewSet):
+    """API para RECEITA"""
     queryset = Receita.objects.all()
     serializer_class = ReceitaSerializer
 
 class DespesaViewSet(viewsets.ModelViewSet):
+    """API para DESPESA"""
     queryset = Despesa.objects.all()
     serializer_class = DespesaSerializer
 
@@ -126,6 +130,17 @@ class ReceitaList(LoginRequiredMixin, ListView):
     model = Receita
     context_object_name = 'list_receita'
     template_name = 'gerenciador/receita_list.html'
+
+@method_decorator(login_required, name='dispatch')
+class ReceitaListFixa(LoginRequiredMixin, ListView):
+    model = Receita
+    context_object_name = 'list_receita'
+    template_name = 'gerenciador/receita_list_fixa.html'
+    context_object_name = 'receitas'
+
+    def get_queryset(self):
+        receitas = Receita.objects.filter(receita_fixa=True)
+        return receitas
 
 @method_decorator(login_required, name='dispatch')
 class ReceitaDelete(LoginRequiredMixin, DeleteView):

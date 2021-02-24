@@ -11,6 +11,14 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UsuarioRegisterForm
 from .models import Usuario
 from gerenciador.models import Gerenciador
+from .serializers import UsuarioSerializer
+from rest_framework import viewsets
+
+#API
+class UsuarioViewSet(viewsets.ModelViewSet):
+    """API para USUARIO"""
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
 
 class LoginView(LoginView):
     template_name = 'accounts/login.html'

@@ -1,22 +1,13 @@
-from django.urls import path, include
-from rest_framework.routers import SimpleRouter
+from django.urls import path
 from .views import IndexView
 from .views import CategoriaCreate, CategoriaList, CategoriaUpdate, CategoriaDelete
 from .views import GerenciadorCreate, GerenciadorList, GerenciadorUpdate, GerenciadorDelete
-from .views import ReceitaCreate, ReceitaList, ReceitaUpdate, ReceitaDelete
+from .views import ReceitaCreate, ReceitaList, ReceitaListFixa, ReceitaUpdate, ReceitaDelete
 from .views import DespesaCreate, DespesaList, DespesaUpdate, DespesaDelete
-from .views import CategoriaViewSet, GerenciadorViewSet, ReceitaViewSet, DespesaViewSet
 
 app_name = 'gerenciador'
 
-router = SimpleRouter()
-router.register(r'api/categoria', CategoriaViewSet)
-router.register(r'api/gerenciador', GerenciadorViewSet)
-router.register(r'api/receita', ReceitaViewSet)
-router.register(r'api/despesa', DespesaViewSet)
-
 urlpatterns = [
-    path('', include(router.urls)),
     path('', IndexView.as_view(), name='index'),
     path('categoria/create', CategoriaCreate.as_view(), name='createCategoria'),
     path('categoria/list', CategoriaList.as_view(), name='listCategoria'),
@@ -30,6 +21,7 @@ urlpatterns = [
 
     path('receita/create', ReceitaCreate.as_view(), name='createReceita'),
     path('receita/list', ReceitaList.as_view(), name='listReceita'),
+    path('receita/listfixa', ReceitaListFixa.as_view(), name='listFixaReceita'),
     path('receita/update/<int:pk>/', ReceitaUpdate.as_view(), name='updateReceita'),
     path('receita/delete/<int:pk>/', ReceitaDelete.as_view(), name='deleteReceita'),
 
