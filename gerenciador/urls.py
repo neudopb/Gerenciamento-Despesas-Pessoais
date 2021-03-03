@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import IndexView
+from .views import IndexView, Pendencias
 from .views import CategoriaCreate, CategoriaList, CategoriaUpdate, CategoriaDelete
 from .views import GerenciadorCreate, GerenciadorList, GerenciadorUpdate, GerenciadorDelete
 from .views import ReceitaCreate, ReceitaList, DespesaListFixa, ReceitaListFixa, ReceitaUpdate, ReceitaDelete
@@ -10,14 +10,16 @@ from .api.viewsets import CategoriaViewSet, GerenciadorViewSet, ReceitaViewSet, 
 app_name = 'gerenciador'
 
 router = routers.DefaultRouter()
-router.register(r'api-categoria', CategoriaViewSet)
-router.register(r'api-gerenciador', GerenciadorViewSet)
-router.register(r'api-receita', ReceitaViewSet)
-router.register(r'api-despesa', DespesaViewSet)
+router.register(r'-categoria', CategoriaViewSet)
+router.register(r'-gerenciador', GerenciadorViewSet)
+router.register(r'-receita', ReceitaViewSet)
+router.register(r'-despesa', DespesaViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api', include(router.urls)),
     path('', IndexView.as_view(), name='index'),
+    path('pendencias/', Pendencias.as_view(), name='pendencias'),
+
     path('categoria/create', CategoriaCreate.as_view(), name='createCategoria'),
     path('categoria/list', CategoriaList.as_view(), name='listCategoria'),
     path('categoria/update/<int:pk>/', CategoriaUpdate.as_view(), name='updateCategoria'),
@@ -39,4 +41,5 @@ urlpatterns = [
     path('despesa/listfixa', DespesaListFixa.as_view(), name='listFixaDespesa'),
     path('despesa/update/<int:pk>/', DespesaUpdate.as_view(), name='updateDespesa'),
     path('despesa/delete/<int:pk>/', DespesaDelete.as_view(), name='deleteDespesa'),
+
 ]

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Listagem de Receitas{% endblock title %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-2 text-gray-800">Pendências</h1>
+</div>
+<hr class="mt-0 mb-4"/>
+
+<div class="row">
+    <!-- Content Column -->
+    {% if receitas %}
+    <div class="col-lg-6 mb-4">
+        <!-- Project Card Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Receitas Pendêntes</h6>
+            </div>
+            <div class="card-body">
+                {% for rec in receitas %}
+                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec.descricao }}'">{{ rec.id_categoria.nome }}
+                    <span
+                            class="float-right">{{ rec.valor }} <a
+                            href="#" class="btn btn-success btn-circle" title="Pagar">
+                                            <i class="fas fa-check"></i>
+                                        </a></span><br><span class="small">{{ rec.data }}</span></h6>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if despesas %}
+    <div class="col-lg-6 mb-4">
+        <!-- Project Card Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-danger">Despesas Pendêntes</h6>
+            </div>
+            <div class="card-body">
+                {% for desp in despesas %}
+                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp.descricao }}'">{{ desp.id_categoria.nome }}<span
+                        class="float-right">{{ desp.valor }} <a
+                        href="#" class="btn btn-success btn-circle" title="Pagar">
+                                            <i class="fas fa-check"></i>
+                                        </a></span><br><span class="small">{{ desp.data }}</span></h6>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<div class="row">
+    <!-- Content Column -->
+    {% if receitas_fixas %}
+    <div class="col-lg-6 mb-4">
+        <!-- Project Card Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Receitas Fixas Pendêntes</h6>
+            </div>
+            <div class="card-body">
+                {% for rec_fix in receitas_fixas %}
+                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec_fix.descricao }}'">
+                    {{ rec_fix.id_categoria.nome }} <span
+                        class="float-right">{{ rec_fix.valor }} <a
+                        href="#" class="btn btn-success btn-circle" title="Pagar">
+                                            <i class="fas fa-check"></i>
+                                        </a></span><br><span class="small">{{ rec_fix.data }}</span></h6>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if despesas_fixas %}
+    <div class="col-lg-6 mb-4">
+        <!-- Project Card Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-danger">Despesas Fixas Pendêntes</h6>
+            </div>
+            <div class="card-body">
+                {% for desp_fix in despesas_fixas %}
+                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp_fix.descricao }}'">
+                    {{ desp_fix.id_categoria.nome }} <span
+                        class="float-right">{{ desp_fix.valor }} <a
+                        href="#" class="btn btn-success btn-circle" title="Pagar">
+                                            <i class="fas fa-check"></i>
+                                        </a></span><br><span class="small">{{ desp_fix.data }}</span></h6>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

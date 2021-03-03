@@ -1,0 +1,61 @@
+.check-radio {
+    position: relative;
+}
+
+.check-radio input {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #eee;
+    width: 40px;
+    height: 15px;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, .5);
+}
+
+.check-radio input:focus {
+    outline: none;
+    cursor: pointer;
+}
+
+.check-radio input:before {
+    content: '';
+    margin-top: -2.5px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px #333, 0 2px 5px rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 0;
+    transition: left .3s ease-out;
+    -webkit-transition: left .3s ease-out;
+}
+
+.check-radio input:after {
+    content: 'NO';
+    display: block;
+    margin-top: -2.5px;
+    left: 20px;
+    position: absolute;
+    font-size: 14px;
+    font-weight: bold;
+    transition: left .3s ease-out;
+    -webkit-transition: left .3s ease-out;
+    color: #666;
+}
+
+.check-radio input:checked {
+    background-color: lime;
+}
+
+.check-radio input:checked:before {
+    left: 22.5px;
+    box-shadow: inset 0 0 0 2px green, 0 2px 5px rgba(0, 0, 0, .5);
+}
+
+.check-radio input:checked:after {
+    content: 'YES';
+    left: 43.5px;
+    color: green;
+}

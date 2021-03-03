@@ -22,6 +22,8 @@
     <!-- Custom styles for this page -->
     <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
+    <link href="{% static 'css/checkradio.css' %}" rel="stylesheet">
+
     {% block style %}
     {% endblock style %}
 </head>
@@ -69,6 +71,7 @@
                 <div id="gerenciamento" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Gerenciamento:</h6>
+                        <a class="collapse-item" href="{% url 'gerenciador:pendencias' %}">Pendências</a>
                         <a class="collapse-item" href="#">Listar</a>
                         <a class="collapse-item" href="#">Historico</a>
                     </div>
@@ -85,6 +88,7 @@
                         <a class="collapse-item" href="{% url 'gerenciador:createReceita' %}">Cadastrar</a>
                         <a class="collapse-item" href="{% url 'gerenciador:listReceita' %}">Listar</a>
                         <a class="collapse-item" href="{% url 'gerenciador:listFixaReceita' %}">Fixa</a>
+                        <a class="collapse-item" href="{% url 'gerenciador:pendencias' %}">Pendências</a>
                         <a class="collapse-item" href="#">Historico</a>
                     </div>
                 </div>
@@ -102,6 +106,7 @@
                         <a class="collapse-item" href="{% url 'gerenciador:createDespesa' %}">Cadastrar</a>
                         <a class="collapse-item" href="{% url 'gerenciador:listDespesa' %}">Listar</a>
                         <a class="collapse-item" href="{% url 'gerenciador:listFixaDespesa' %}">Fixa</a>
+                        <a class="collapse-item" href="{% url 'gerenciador:pendencias' %}">Pendências</a>
                         <a class="collapse-item" href="#">Historico</a>
                     </div>
                 </div>
