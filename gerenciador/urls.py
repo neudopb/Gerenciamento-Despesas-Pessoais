@@ -1,8 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
 from .views import IndexView, Pendencias
-from .views import CategoriaCreate, CategoriaList, CategoriaUpdate, CategoriaDelete
-from .views import GerenciadorCreate, GerenciadorList, GerenciadorUpdate, GerenciadorDelete
 from .views import ReceitaCreate, ReceitaList, DespesaListFixa, ReceitaListFixa, ReceitaUpdate, ReceitaDelete
 from .views import DespesaCreate, DespesaList, DespesaUpdate, DespesaDelete
 from .api.viewsets import CategoriaViewSet, GerenciadorViewSet, ReceitaViewSet, DespesaViewSet
@@ -20,15 +18,7 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('pendencias/', Pendencias.as_view(), name='pendencias'),
 
-    path('categoria/create', CategoriaCreate.as_view(), name='createCategoria'),
-    path('categoria/list', CategoriaList.as_view(), name='listCategoria'),
-    path('categoria/update/<int:pk>/', CategoriaUpdate.as_view(), name='updateCategoria'),
-    path('categoria/delete/<int:pk>/', CategoriaDelete.as_view(), name='deleteCategoria'),
 
-    path('gerenciador/create', GerenciadorCreate.as_view(), name='createGerenciador'),
-    path('gerenciador/list', GerenciadorList.as_view(), name='listGerenciador'),
-    path('gerenciador/update/<int:pk>/', GerenciadorUpdate.as_view(), name='updateGerenciador'),
-    path('gerenciador/delete/<int:pk>/', GerenciadorDelete.as_view(), name='deleteGerenciador'),
 
     path('receita/create', ReceitaCreate.as_view(), name='createReceita'),
     path('receita/list', ReceitaList.as_view(), name='listReceita'),
@@ -43,3 +33,17 @@ urlpatterns = [
     path('despesa/delete/<int:pk>/', DespesaDelete.as_view(), name='deleteDespesa'),
 
 ]
+
+'''
+from .views import CategoriaCreate, CategoriaList, CategoriaUpdate, CategoriaDelete
+path('categoria/create', CategoriaCreate.as_view(), name='createCategoria'),
+path('categoria/list', CategoriaList.as_view(), name='listCategoria'),
+path('categoria/update/<int:pk>/', CategoriaUpdate.as_view(), name='updateCategoria'),
+path('categoria/delete/<int:pk>/', CategoriaDelete.as_view(), name='deleteCategoria'),
+
+from .views import GerenciadorCreate, GerenciadorList, GerenciadorUpdate, GerenciadorDelete
+path('gerenciador/create', GerenciadorCreate.as_view(), name='createGerenciador'),
+path('gerenciador/list', GerenciadorList.as_view(), name='listGerenciador'),
+path('gerenciador/update/<int:pk>/', GerenciadorUpdate.as_view(), name='updateGerenciador'),
+path('gerenciador/delete/<int:pk>/', GerenciadorDelete.as_view(), name='deleteGerenciador'),
+'''

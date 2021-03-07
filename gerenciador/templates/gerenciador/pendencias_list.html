@@ -19,12 +19,21 @@
             </div>
             <div class="card-body">
                 {% for rec in receitas %}
-                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec.descricao }}'">{{ rec.id_categoria.nome }}
-                    <span
-                            class="float-right">{{ rec.valor }} <a
-                            href="#" class="btn btn-success btn-circle" title="Pagar">
-                                            <i class="fas fa-check"></i>
-                                        </a></span><br><span class="small">{{ rec.data }}</span></h6>
+                <form method="get">
+                    {% csrf_token %}
+                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec.descricao }}'">{{ rec.id_categoria.nome }}
+                        <span class="float-right">{{ rec.valor }} 
+                            <button type="submit" class="btn btn-success btn-circle" title="Pagar">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <a href="{% url 'gerenciador:deleteReceita' rec.id %}" class="btn btn-danger btn-circle" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </span><br>
+                        <span class="small">{{ rec.data }}</span></h6>
+                    <input type="hidden" name="idUpd" value="{{ rec.id }}">
+                    <input type="hidden" name="tipoUpd" value="receita">
+                </form>
                 {% endfor %}
             </div>
         </div>
@@ -39,11 +48,20 @@
             </div>
             <div class="card-body">
                 {% for desp in despesas %}
-                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp.descricao }}'">{{ desp.id_categoria.nome }}<span
-                        class="float-right">{{ desp.valor }} <a
-                        href="#" class="btn btn-success btn-circle" title="Pagar">
-                                            <i class="fas fa-check"></i>
-                                        </a></span><br><span class="small">{{ desp.data }}</span></h6>
+                <form method="get">
+                    {% csrf_token %}
+                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp.descricao }}'">{{ desp.id_categoria.nome }}<span
+                            class="float-right">{{ desp.valor }} <button
+                            type="submit" class="btn btn-success btn-circle" title="Pagar">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                        <a href="{% url 'gerenciador:deleteDespesa' desp.id %}" class="btn btn-danger btn-circle" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                    </span><br><span class="small">{{ desp.data }}</span></h6>
+                    <input type="hidden" name="idUpd" value="{{ desp.id }}">
+                    <input type="hidden" name="tipoUpd" value="despesa">
+                </form>
                 {% endfor %}
             </div>
         </div>
@@ -61,12 +79,21 @@
             </div>
             <div class="card-body">
                 {% for rec_fix in receitas_fixas %}
-                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec_fix.descricao }}'">
-                    {{ rec_fix.id_categoria.nome }} <span
-                        class="float-right">{{ rec_fix.valor }} <a
-                        href="#" class="btn btn-success btn-circle" title="Pagar">
-                                            <i class="fas fa-check"></i>
-                                        </a></span><br><span class="small">{{ rec_fix.data }}</span></h6>
+                <form method="get">
+                    {% csrf_token %}
+                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec_fix.descricao }}'">
+                        {{ rec_fix.id_categoria.nome }} <span
+                            class="float-right">{{ rec_fix.valor }} <button
+                            type="submit" class="btn btn-success btn-circle" title="Pagar">
+                                                <i class="fas fa-check"></i>
+                    </button>
+                    <a href="{% url 'gerenciador:deleteReceita' rec_fix.id %}" class="btn btn-danger btn-circle" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                    </span><br><span class="small">{{ rec_fix.data }}</span></h6>
+                    <input type="hidden" name="idUpd" value="{{ rec_fix.id }}">
+                    <input type="hidden" name="tipoUpd" value="receita">
+                </form>
                 {% endfor %}
             </div>
         </div>
@@ -81,12 +108,21 @@
             </div>
             <div class="card-body">
                 {% for desp_fix in despesas_fixas %}
-                <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp_fix.descricao }}'">
-                    {{ desp_fix.id_categoria.nome }} <span
-                        class="float-right">{{ desp_fix.valor }} <a
-                        href="#" class="btn btn-success btn-circle" title="Pagar">
-                                            <i class="fas fa-check"></i>
-                                        </a></span><br><span class="small">{{ desp_fix.data }}</span></h6>
+                <form method="get">
+                    {% csrf_token %}
+                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp_fix.descricao }}'">
+                        {{ desp_fix.id_categoria.nome }} <span
+                            class="float-right">{{ desp_fix.valor }} <button
+                            type="submit" class="btn btn-success btn-circle" title="Pagar">
+                                                <i class="fas fa-check"></i>
+                    </button>
+                    <a href="{% url 'gerenciador:deleteDespesa' desp_fix.id %}" class="btn btn-danger btn-circle" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                    </span><br><span class="small">{{ desp_fix.data }}</span></h6>
+                    <input type="hidden" name="idUpd" value="{{ desp_fix.id }}">
+                    <input type="hidden" name="tipoUpd" value="despesa">
+                </form>
                 {% endfor %}
             </div>
         </div>

@@ -1,6 +1,5 @@
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
@@ -27,61 +26,6 @@ class IndexView(LoginRequiredMixin, ListView):
         context['ttl_desp'] = Despesa.objects.filter(Q(id_gerenciador=gerenc.id) & Q(pago=False)).count()
         return context
 
-#CRUD CATEGORIA
-
-@method_decorator(login_required, name='dispatch')
-class CategoriaCreate(LoginRequiredMixin, CreateView):
-    model = Categoria
-    form_class = CategoriaForm
-    template_name = 'gerenciador/categoria_create.html'
-    success_url = reverse_lazy('gerenciador:listCategoria')
-
-@method_decorator(login_required, name='dispatch')
-class CategoriaUpdate(LoginRequiredMixin, UpdateView):
-    model = Categoria
-    form_class = CategoriaForm
-    template_name = 'gerenciador/categoria_update.html'
-    success_url = reverse_lazy('gerenciador:listCategoria')
-
-@method_decorator(login_required, name='dispatch')
-class CategoriaList(LoginRequiredMixin, ListView):
-    model = Categoria
-    context_object_name = 'list_categoria'
-    template_name = 'gerenciador/categoria_list.html'
-
-@method_decorator(login_required, name='dispatch')
-class CategoriaDelete(LoginRequiredMixin, DeleteView):
-    model = Categoria
-    template_name = 'gerenciador/categoria_confirm_delete.html'
-    success_url = reverse_lazy('gerenciador:listCategoria')
-
-#CRUD GERENCIADOR
-
-@method_decorator(login_required, name='dispatch')
-class GerenciadorCreate(LoginRequiredMixin, CreateView):
-    model = Gerenciador
-    form_class = GerenciadorForm
-    template_name = 'gerenciador/gerenciador_create.html'
-    success_url = reverse_lazy('gerenciador:listGerenciador')
-
-@method_decorator(login_required, name='dispatch')
-class GerenciadorUpdate(LoginRequiredMixin, UpdateView):
-    model = Gerenciador
-    form_class = GerenciadorForm
-    template_name = 'gerenciador/gerenciador_update.html'
-    success_url = reverse_lazy('gerenciador:listGerenciador')
-
-@method_decorator(login_required, name='dispatch')
-class GerenciadorList(LoginRequiredMixin, ListView):
-    model = Gerenciador
-    context_object_name = 'list_gerenciador'
-    template_name = 'gerenciador/gerenciador_list.html'
-
-@method_decorator(login_required, name='dispatch')
-class GerenciadorDelete(LoginRequiredMixin, DeleteView):
-    model = Gerenciador
-    template_name = 'gerenciador/gerenciador_confirm_delete.html'
-    success_url = reverse_lazy('gerenciador:listGerenciador')
 
 #CRUD RECEITA
 
@@ -100,10 +44,12 @@ class ReceitaCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         rec = form.save()
-        gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
-        rec_ttl = rec.valor + gerenc.receita_total
-        sald = rec.valor + gerenc.saldo
-        Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, receita_total=rec_ttl)
+
+        if rec.recebido:
+            gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
+            rec_ttl = rec.valor + gerenc.receita_total
+            sald = rec.valor + gerenc.saldo
+            Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, receita_total=rec_ttl)
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -161,10 +107,11 @@ class DespesaCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         desp = form.save()
-        gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
-        desp_ttl = desp.valor + gerenc.despesa_total
-        sald = gerenc.saldo - desp.valor
-        Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, despesa_total=desp_ttl)
+        if desp.pago:
+            gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
+            desp_ttl = desp.valor + gerenc.despesa_total
+            sald = gerenc.saldo - desp.valor
+            Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, despesa_total=desp_ttl)
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -219,3 +166,83 @@ class Pendencias(LoginRequiredMixin, ListView):
         context['despesas'] = Despesa.objects.filter(Q(despesa_fixa=False) & Q(id_gerenciador=gerenc.id) & Q(pago=False))
         context['despesas_fixas'] = Despesa.objects.filter(Q(despesa_fixa=True) & Q(id_gerenciador=gerenc.id) & Q(pago=False))
         return context
+
+    def get_queryset(self):
+        idUp = self.request.GET.get('idUpd', '')
+        tipoUp = self.request.GET.get('tipoUpd', '')
+
+        if idUp and tipoUp == 'receita':
+            rec = Receita.objects.get(id=idUp)
+            if not rec.recebido:
+                gerenc = Gerenciador.objects.get(id=rec.id_gerenciador.id)
+                rec_ttl = rec.valor + gerenc.receita_total
+                sald = gerenc.saldo + rec.valor
+                Receita.objects.filter(id=rec.id).update(recebido=True)
+                Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, despesa_total=rec_ttl)
+                print('receita')
+        if idUp and tipoUp == 'despesa':
+            desp = Despesa.objects.get(id=idUp)
+            if not desp.pago:
+                gerenc = Gerenciador.objects.get(id=desp.id_gerenciador.id)
+                desp_ttl = desp.valor + gerenc.receita_total
+                sald = gerenc.saldo + desp.valor
+                Despesa.objects.filter(id=desp.id).update(pago=True)
+                Gerenciador.objects.filter(id=gerenc.id).update(saldo=sald, despesa_total=desp_ttl)
+                print('despesa')
+
+''''
+
+@method_decorator(login_required, name='dispatch')
+class CategoriaCreate(LoginRequiredMixin, CreateView):
+    model = Categoria
+    form_class = CategoriaForm
+    template_name = 'gerenciador/categoria_create.html'
+    success_url = reverse_lazy('gerenciador:listCategoria')
+
+@method_decorator(login_required, name='dispatch')
+class CategoriaUpdate(LoginRequiredMixin, UpdateView):
+    model = Categoria
+    form_class = CategoriaForm
+    template_name = 'gerenciador/categoria_update.html'
+    success_url = reverse_lazy('gerenciador:listCategoria')
+
+@method_decorator(login_required, name='dispatch')
+class CategoriaList(LoginRequiredMixin, ListView):
+    model = Categoria
+    context_object_name = 'list_categoria'
+    template_name = 'gerenciador/categoria_list.html'
+
+@method_decorator(login_required, name='dispatch')
+class CategoriaDelete(LoginRequiredMixin, DeleteView):
+    model = Categoria
+    template_name = 'gerenciador/categoria_confirm_delete.html'
+    success_url = reverse_lazy('gerenciador:listCategoria')
+    
+
+@method_decorator(login_required, name='dispatch')
+class GerenciadorCreate(LoginRequiredMixin, CreateView):
+    model = Gerenciador
+    form_class = GerenciadorForm
+    template_name = 'gerenciador/gerenciador_create.html'
+    success_url = reverse_lazy('gerenciador:listGerenciador')
+
+@method_decorator(login_required, name='dispatch')
+class GerenciadorUpdate(LoginRequiredMixin, UpdateView):
+    model = Gerenciador
+    form_class = GerenciadorForm
+    template_name = 'gerenciador/gerenciador_update.html'
+    success_url = reverse_lazy('gerenciador:listGerenciador')
+
+@method_decorator(login_required, name='dispatch')
+class GerenciadorList(LoginRequiredMixin, ListView):
+    model = Gerenciador
+    context_object_name = 'list_gerenciador'
+    template_name = 'gerenciador/gerenciador_list.html'
+
+@method_decorator(login_required, name='dispatch')
+class GerenciadorDelete(LoginRequiredMixin, DeleteView):
+    model = Gerenciador
+    template_name = 'gerenciador/gerenciador_confirm_delete.html'
+    success_url = reverse_lazy('gerenciador:listGerenciador')
+
+'''

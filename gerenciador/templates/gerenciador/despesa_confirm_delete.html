@@ -1,17 +1,27 @@
-<!doctype html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>despesa_delete</title>
-</head>
-<body>
-    <form method="post">
-        {% csrf_token %}
-        <p>Tem certeza que deseja deletar "{{ object.descricao }}"?</p>
-        <button type="submit">Deletar</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Excluir Despesa{% endblock title %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-11 mt-4 justify-content-center">
+        <div class="card text-center h-100">
+            <div class="card-body px-5 pt-5 d-flex flex-column">
+                <div>
+                    <div class="h3 text-primary font-weight-300">Deletar Despesa</div>
+                    <p class="text-muted mb-4">Tem certeza que deseja deletar "{{ object.descricao }}"?</p>
+                </div>
+                <div class="icons-org-create align-items-center mx-auto mt-auto"></div>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="card-footer bg-transparent px-5 py-4">
+                    <div class="small text-center">
+                        <button type="submit" class="btn btn-block btn-primary">Deletar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

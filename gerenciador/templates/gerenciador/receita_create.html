@@ -21,17 +21,17 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label class="small mb-1">Valor</label>
-                                {{ form.valor }}
+                                <input type="number" name="valor" id="id_valor" step="0.01" class="form-control" placeholder="R$ 0.00" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="small mb-1">Data</label>
-                                {{ form.data }}
+                                <input type="date" name="data" id="id_data" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label class="small mb-1">Descrição</label>
-                                {{ form.descricao }}
+                                <textarea name="descricao" id="id_descricao" class="form-control" rows="2" placeholder="Descrição da Receita" required></textarea>
                             </div>
                         </div>
                         <div class="form-row">
@@ -47,18 +47,18 @@
                             <div class="form-group col-md-1"></div>
                             <div class="form-group col-md-2">
                                 <div class="check-radio">
-                                    <br><label id="lab_recebido" class="mb-1">Recebido</label><br>
-                                    {{ form.recebido }}
+                                    <br><label for="id_recebido" class="mb-1">Recebido</label><br>
+                                    <input type="checkbox" name="recebido" id="id_recebido">
                                 </div>
                             </div>
                             <div class="form-group col-md-2">
                                 <div class="check-radio">
-                                    <br><label id="lab_fixa" class="mb-1">Receita Fixa</label><br>
-                                    {{ form.receita_fixa }}
+                                    <br><label for="id_receita_fixa" class="mb-1">Receita Fixa</label><br>
+                                    <input type="checkbox" name="receita_fixa" id="id_receita_fixa">
                                 </div>
                             </div>
                         </div>
-                        {{ form.fixa_ativa }}
+                        <input type="checkbox" name="fixa_ativa" id="id_fixa_ativa" hidden="hidden">
                         {{ form.id_gerenciador }}
 
                         <button class="btn btn-primary" type="submit">Salvar</button>
@@ -73,15 +73,8 @@
 {% block js %}
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#id_valor").addClass("form-control").attr("placeholder", "R$ 0.00");
-        $("#id_data").addClass("form-control").attr("type", "date");
-        $("#id_descricao").addClass("form-control").attr("rows", 2).attr("placeholder", "Descrição da Receita").attr("required", true);
-        $("#lab_recebido").attr("for", "id_recebido");
-        $("#lab_fixa").attr("for", "id_receita_fixa");
         $("#id_id_gerenciador").attr("hidden", true);
         $("#id_id_gerenciador").val($("#gerenc").val());
-        $("#id_fixa_ativa").attr("hidden", true);
-        $("#id_fixa_ativa").attr("hidden", true);
     });
 
     $("#id_receita_fixa").click(function () {

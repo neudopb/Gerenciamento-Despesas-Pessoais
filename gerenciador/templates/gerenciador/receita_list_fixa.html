@@ -22,7 +22,7 @@
                         <th>Categoria</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th>Recebido</th>
+                        <th>Ativo</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -32,7 +32,7 @@
                         <th>Categoria</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th>Recebido</th>
+                        <th>Ativo</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -43,7 +43,7 @@
                             <td>{{ receita.id_categoria.nome }}</td>
                             <td>{{ receita.valor }}</td>
                             <td>{{ receita.data }}</td>
-                            {% if receita.recebido %}
+                            {% if receita.fixa_ativa %}
                                 <td><label class="badge badge-primary">Sim</label></td>
                             {% else %}
                                 <td><label class="badge badge-danger">Não</label></td>
