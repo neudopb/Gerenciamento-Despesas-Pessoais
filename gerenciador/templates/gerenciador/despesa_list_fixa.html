@@ -18,28 +18,27 @@
             <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Descrição</th>
                         <th>Categoria</th>
                         <th>Valor</th>
                         <th>Data</th>
                         <th>Pago</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Id</th>
                         <th>Descrição</th>
                         <th>Categoria</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th>Recebido</th>
+                        <th>Pago</th>
+                        <th>Ações</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     {% for despesa in list_despesa %}
                         <tr>
-                            <td>{{ despesa.id }}</td>
                             <td title="{{ despesa.descricao }}">{{ despesa.descricao|truncatechars:25 }}</td>
                             <td>{{ despesa.id_categoria.nome }}</td>
                             <td>{{ despesa.valor }}</td>
@@ -49,6 +48,16 @@
                             {% else %}
                                 <td><label class="badge badge-danger">Não</label></td>
                             {% endif %}
+                            <td>
+                                <a href="#" class="btn btn-info btn-circle btn-sm tool" title="Visualizar"><i class="far fa-eye"></i></a>
+                                {% if despesa.pago %}
+                                    <button class="btn btn-success btn-circle btn-sm tool" title="Pagar" disabled><i class="fas fa-dollar-sign"></i></button>
+                                {% else %}
+                                    <a href="{% url 'gerenciador:updateDespesa' despesa.id %}" class="btn btn-success btn-circle btn-sm tool" title="Pagar"><i class="fas fa-dollar-sign"></i></a>
+                                {% endif %}
+                                <a href="{% url 'gerenciador:updateDespesa' despesa.id %}" class="btn btn-warning btn-circle btn-sm tool" title="Editar"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'gerenciador:deleteDespesa' despesa.id %}" class="btn btn-danger btn-circle btn-sm tool" title="Deletar"><i class="fas fa-trash"></i></a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -57,3 +66,12 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tool").tooltip();
+    });
+</script>
+
+{% endblock js %}

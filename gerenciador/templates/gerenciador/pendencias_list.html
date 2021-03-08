@@ -19,21 +19,17 @@
             </div>
             <div class="card-body">
                 {% for rec in receitas %}
-                <form method="get">
-                    {% csrf_token %}
-                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec.descricao }}'">{{ rec.id_categoria.nome }}
-                        <span class="float-right">{{ rec.valor }} 
-                            <button type="submit" class="btn btn-success btn-circle" title="Pagar">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <a href="{% url 'gerenciador:deleteReceita' rec.id %}" class="btn btn-danger btn-circle" title="Excluir">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </span><br>
-                        <span class="small">{{ rec.data }}</span></h6>
-                    <input type="hidden" name="idUpd" value="{{ rec.id }}">
-                    <input type="hidden" name="tipoUpd" value="receita">
-                </form>
+                <h6 class="font-weight-bold mb-4 tool" title="Descrição: '{{ rec.descricao }}'">{{ rec.id_categoria.nome }}
+                    <span class="float-right">{{ rec.valor }}
+                        <a href="{% url 'gerenciador:updateReceita' rec.id %}" class="btn btn-success btn-circle tool" title="Pagar">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a href="{% url 'gerenciador:deleteReceita' rec.id %}" class="btn btn-danger btn-circle tool" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span><br>
+                    <span class="small">{{ rec.data }}</span>
+                </h6>
                 {% endfor %}
             </div>
         </div>
@@ -48,20 +44,17 @@
             </div>
             <div class="card-body">
                 {% for desp in despesas %}
-                <form method="get">
-                    {% csrf_token %}
-                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp.descricao }}'">{{ desp.id_categoria.nome }}<span
-                            class="float-right">{{ desp.valor }} <button
-                            type="submit" class="btn btn-success btn-circle" title="Pagar">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                        <a href="{% url 'gerenciador:deleteDespesa' desp.id %}" class="btn btn-danger btn-circle" title="Excluir">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                    </span><br><span class="small">{{ desp.data }}</span></h6>
-                    <input type="hidden" name="idUpd" value="{{ desp.id }}">
-                    <input type="hidden" name="tipoUpd" value="despesa">
-                </form>
+                <h6 class="font-weight-bold mb-4 tool" title="Descrição: '{{ desp.descricao }}'">{{ desp.id_categoria.nome }}
+                    <span class="float-right">{{ desp.valor }}
+                        <a href="{% url 'gerenciador:updateDespesa' desp.id %}" class="btn btn-success btn-circle tool" title="Pagar">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a href="{% url 'gerenciador:deleteDespesa' desp.id %}" class="btn btn-danger btn-circle tool" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span><br>
+                    <span class="small">{{ desp.data }}</span>
+                </h6>
                 {% endfor %}
             </div>
         </div>
@@ -79,21 +72,18 @@
             </div>
             <div class="card-body">
                 {% for rec_fix in receitas_fixas %}
-                <form method="get">
-                    {% csrf_token %}
-                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ rec_fix.descricao }}'">
-                        {{ rec_fix.id_categoria.nome }} <span
-                            class="float-right">{{ rec_fix.valor }} <button
-                            type="submit" class="btn btn-success btn-circle" title="Pagar">
-                                                <i class="fas fa-check"></i>
-                    </button>
-                    <a href="{% url 'gerenciador:deleteReceita' rec_fix.id %}" class="btn btn-danger btn-circle" title="Excluir">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                    </span><br><span class="small">{{ rec_fix.data }}</span></h6>
-                    <input type="hidden" name="idUpd" value="{{ rec_fix.id }}">
-                    <input type="hidden" name="tipoUpd" value="receita">
-                </form>
+                <h6 class="font-weight-bold mb-4 tool" title="Descrição: '{{ rec_fix.descricao }}'">
+                        {{ rec_fix.id_categoria.nome }}
+                    <span class="float-right">{{ rec_fix.valor }}
+                        <a href="{% url 'gerenciador:updateReceita' rec_fix.id %}" class="btn btn-success btn-circle tool" title="Pagar">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a href="{% url 'gerenciador:deleteReceita' rec_fix.id %}" class="btn btn-danger btn-circle tool" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span><br>
+                    <span class="small">{{ rec_fix.data }}</span>
+                </h6>
                 {% endfor %}
             </div>
         </div>
@@ -108,21 +98,18 @@
             </div>
             <div class="card-body">
                 {% for desp_fix in despesas_fixas %}
-                <form method="get">
-                    {% csrf_token %}
-                    <h6 class="font-weight-bold mb-4" title="Descrição: '{{ desp_fix.descricao }}'">
-                        {{ desp_fix.id_categoria.nome }} <span
-                            class="float-right">{{ desp_fix.valor }} <button
-                            type="submit" class="btn btn-success btn-circle" title="Pagar">
-                                                <i class="fas fa-check"></i>
-                    </button>
-                    <a href="{% url 'gerenciador:deleteDespesa' desp_fix.id %}" class="btn btn-danger btn-circle" title="Excluir">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                    </span><br><span class="small">{{ desp_fix.data }}</span></h6>
-                    <input type="hidden" name="idUpd" value="{{ desp_fix.id }}">
-                    <input type="hidden" name="tipoUpd" value="despesa">
-                </form>
+                <h6 class="font-weight-bold mb-4 tool" title="Descrição: '{{ desp_fix.descricao }}'">
+                        {{ desp_fix.id_categoria.nome }}
+                    <span class="float-right">{{ desp_fix.valor }}
+                        <a href="{% url 'gerenciador:updateDespesa' desp_fix.id %}" class="btn btn-success btn-circle tool" title="Pagar">
+                            <i class="fas fa-check"></i>
+                        </a>
+                    <a href="{% url 'gerenciador:deleteDespesa' desp_fix.id %}" class="btn btn-danger btn-circle tool" title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    </span><br>
+                    <span class="small">{{ desp_fix.data }}</span>
+                </h6>
                 {% endfor %}
             </div>
         </div>
@@ -130,3 +117,12 @@
     {% endif %}
 </div>
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tool").tooltip();
+    });
+</script>
+
+{% endblock js %}

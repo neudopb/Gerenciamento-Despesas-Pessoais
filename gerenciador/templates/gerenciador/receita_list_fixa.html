@@ -17,37 +17,46 @@
             <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Descrição</th>
                         <th>Categoria</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th>Ativo</th>
+                        <th>Recebido</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Id</th>
                         <th>Descrição</th>
                         <th>Categoria</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th>Ativo</th>
+                        <th>Recebido</th>
+                        <th>Ações</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     {% for receita in list_receita %}
                         <tr>
-                            <td>{{ receita.id }}</td>
                             <td title="{{ receita.descricao }}">{{ receita.descricao|truncatechars:25 }}</td>
                             <td>{{ receita.id_categoria.nome }}</td>
                             <td>{{ receita.valor }}</td>
                             <td>{{ receita.data }}</td>
-                            {% if receita.fixa_ativa %}
+                            {% if receita.recebido %}
                                 <td><label class="badge badge-primary">Sim</label></td>
                             {% else %}
                                 <td><label class="badge badge-danger">Não</label></td>
                             {% endif %}
+                            <td>
+                                <a href="#" class="btn btn-info btn-circle btn-sm tool" title="Visualizar"><i class="far fa-eye"></i></a>
+                                {% if receita.recebido %}
+                                    <button class="btn btn-success btn-circle btn-sm tool" title="Receber" disabled><i class="fas fa-dollar-sign"></i></button>
+                                {% else %}
+                                    <a href="{% url 'gerenciador:updateReceita' receita.id %}" class="btn btn-success btn-circle btn-sm tool" title="Receber"><i class="fas fa-dollar-sign"></i></a>
+                                {% endif %}
+                                <a href="{% url 'gerenciador:updateReceita' receita.id %}" class="btn btn-warning btn-circle btn-sm tool" title="Editar"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'gerenciador:deleteReceita' receita.id %}" class="btn btn-danger btn-circle btn-sm tool" title="Deletar"><i class="fas fa-trash"></i></a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -56,3 +65,12 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tool").tooltip();
+    });
+</script>
+
+{% endblock js %}

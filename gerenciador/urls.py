@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 from .views import IndexView, Pendencias
-from .views import ReceitaCreate, ReceitaList, DespesaListFixa, ReceitaListFixa, ReceitaUpdate, ReceitaDelete
+from .views import ReceitaCreate, ReceitaList, DespesaListFixa, ReceitaListFixa, ReceitaUpdate, ReceitaDelete, ReceitaDetail
 from .views import DespesaCreate, DespesaList, DespesaUpdate, DespesaDelete
 from .api.viewsets import CategoriaViewSet, GerenciadorViewSet, ReceitaViewSet, DespesaViewSet
 
@@ -18,12 +18,11 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('pendencias/', Pendencias.as_view(), name='pendencias'),
 
-
-
     path('receita/create', ReceitaCreate.as_view(), name='createReceita'),
     path('receita/list', ReceitaList.as_view(), name='listReceita'),
     path('receita/listfixa', ReceitaListFixa.as_view(), name='listFixaReceita'),
     path('receita/update/<int:pk>/', ReceitaUpdate.as_view(), name='updateReceita'),
+    path('receita/detail/<int:pk>/', ReceitaDetail.as_view(), name='detailReceita'),
     path('receita/delete/<int:pk>/', ReceitaDelete.as_view(), name='deleteReceita'),
 
     path('despesa/create', DespesaCreate.as_view(), name='createDespesa'),

@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models import Q
+from django.db.models import Sum
+
 
 class Gerenciador(models.Model):
     id = models.AutoField(primary_key=True, db_column="id_gerenciador")
@@ -7,9 +10,16 @@ class Gerenciador(models.Model):
     despesa_total = models.DecimalField(max_digits=10, decimal_places=2)
     id_usuario = models.ForeignKey("accounts.Usuario", db_column='id_usuario', on_delete=models.CASCADE)
 
+    def update_gerenciador(self):
+
+        gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
+        rec_sum = Receita.objects.filter(Q(recebido=True) & Q(id_gerenciador=gerenc.id)).aggregate(rs=Sum('valor'))['rs']
+        desp_sum = Despesa.objects.filter(Q(pago=True) & Q(id_gerenciador=gerenc.id)).aggregate(ds=Sum('valor'))['ds']
+        saldo_ttl = rec_sum - desp_sum
+        Gerenciador.objects.filter(id=gerenc.id).update(saldo=saldo_ttl, receita_total=rec_sum, despesa_total=desp_sum)
+
     def __str__(self):
         return '{}'.format(self.id)
-
     class Meta:
         db_table = "gerenciador"
 

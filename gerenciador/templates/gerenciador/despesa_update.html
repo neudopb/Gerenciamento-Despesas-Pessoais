@@ -1,17 +1,95 @@
-<!doctype html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>despesa_update</title>
-</head>
-<body>
-    <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Cadastrar</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Editar Despesa{% endblock title %}
+
+{% block content %}
+<main>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Despesas</h1>
+    </div>
+    <hr class="mt-0 mb-4"/>
+    <div class="row">
+        <div class="col-xl-2"></div>
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">Editar Despesa</div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <!--{{ form}}-->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1">Valor</label>
+                                {{ form.valor }}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1">Data</label>
+                                <input type="date" name="data" id="id_data" value="{{ form.data.value|date:'Y-m-d' }}" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label class="small mb-1">Descrição</label>
+                                <textarea name="descricao" id="id_descricao" class="form-control" rows="2" placeholder="Descrição da Receita" required> {{ form.descricao.value }}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1">Categoria</label>
+                                <select id="id_id_categoria" name="id_categoria" class="form-control" required>
+                                    {% for field in form.id_categoria %}
+                                        <tr>
+                                            <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-1"></div>
+                            <div class="form-group col-md-2">
+                                <div class="check-radio">
+                                    <br><label id="lab_pago" class="mb-1">Pago</label><br>
+                                    {{ form.pago }}
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <div class="check-radio">
+                                    <br><label id="lab_fixa" class="mb-1">Despesa Fixa</label><br>
+                                    {{ form.despesa_fixa }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        {{ form.fixa_ativa }}
+                        {{ form.id_gerenciador }}
+
+                        <div class="float-right">
+                            {% if not form.pago.value %}
+                                <button class="btn btn-success" id="id_confirm_desp" type="submit">pagar</button>
+                            {% endif %}
+                            <button class="btn btn-primary" type="submit">Atualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#id_valor").addClass("form-control");
+        $("#lab_pago").attr("for", "id_pago");
+        $("#lab_fixa").attr("for", "id_despesa_fixa");
+        $("#id_fixa_ativa").attr("hidden", true);
+        $("#id_id_gerenciador").attr("hidden", true);
+    });
+
+    $("#id_confirm_desp").click(function () {
+        $("#id_pago").prop("checked", true);
+    });
+</script>
+
+{% endblock js %}
