@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
-from django.db.models import Sum
-
+from django.db.models import Sum, Value as V
+from django.db.models.functions import Coalesce
 
 class Gerenciador(models.Model):
     id = models.AutoField(primary_key=True, db_column="id_gerenciador")
@@ -13,8 +13,8 @@ class Gerenciador(models.Model):
     def update_gerenciador(self):
 
         gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
-        rec_sum = Receita.objects.filter(Q(recebido=True) & Q(id_gerenciador=gerenc.id)).aggregate(rs=Sum('valor'))['rs']
-        desp_sum = Despesa.objects.filter(Q(pago=True) & Q(id_gerenciador=gerenc.id)).aggregate(ds=Sum('valor'))['ds']
+        rec_sum = Receita.objects.filter(Q(recebido=True) & Q(id_gerenciador=gerenc.id)).aggregate(rs=Coalesce(Sum('valor'), V(0)))['rs']
+        desp_sum = Despesa.objects.filter(Q(pago=True) & Q(id_gerenciador=gerenc.id)).aggregate(ds=Coalesce(Sum('valor'),V(0)))['ds']
         saldo_ttl = rec_sum - desp_sum
         Gerenciador.objects.filter(id=gerenc.id).update(saldo=saldo_ttl, receita_total=rec_sum, despesa_total=desp_sum)
 

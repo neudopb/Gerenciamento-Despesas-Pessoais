@@ -3,17 +3,14 @@ from django.urls import reverse_lazy
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
-from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.views import LogoutView
 from .forms import UsuarioRegisterForm
 from .models import Usuario
 from gerenciador.models import Gerenciador
-
-class LoginView(LoginView):
-    template_name = 'accounts/login.html'
-    success_url = settings.LOGIN_REDIRECT_URL
-
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class LogoutView(LogoutView):
     template_name = 'index'
@@ -42,5 +39,9 @@ class UserCreateView(CreateView):
         messages.success(self.request, 'Usuário cadastrado com sucesso!')
         return reverse_lazy(self.success_url)
 
-class PasswordResetView(TemplateView):
-    template_name = "accounts/forgot-password.html"
+@method_decorator(login_required, name='dispatch')
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = Usuario
+    fields = ('first_name', 'last_name')
+    template_name = 'accounts/update_user.html'
+    success_url = reverse_lazy('gerenciador:index')

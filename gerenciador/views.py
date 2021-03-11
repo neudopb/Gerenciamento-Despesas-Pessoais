@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import Gerenciador, Categoria, Receita, Despesa
 from .forms import GerenciadorForm, CategoriaForm, ReceitaForm, DespesaForm
 from django.db.models import Q
@@ -84,12 +84,6 @@ class ReceitaListFixa(LoginRequiredMixin, ListView):
         gerenc = Gerenciador.objects.get(id_usuario=self.request.user.id)
         receitas = Receita.objects.filter(Q(receita_fixa=True) & Q(id_gerenciador=gerenc.id))
         return receitas
-
-@method_decorator(login_required, name='dispatch')
-class ReceitaDetail(LoginRequiredMixin, DetailView):
-    model = Receita
-    context_object_name = 'receita'
-    template_name = 'gerenciador/receita_detail.html'
 
 @method_decorator(login_required, name='dispatch')
 class ReceitaDelete(LoginRequiredMixin, DeleteView):

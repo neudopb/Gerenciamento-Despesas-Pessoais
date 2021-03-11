@@ -20,7 +20,11 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">R${{ list_gerenciador.saldo }}</div>
                     </div>
                     <div class="col-auto">
-                        <i style="color: black" class="fas fa-dollar-sign fa-2x "></i>
+                        {% if list_gerenciador.saldo >= 0 %}
+                            <i style="color: green" class="fas fa-dollar-sign fa-2x "></i>
+                        {% else %}
+                            <i style="color: red" class="fas fa-dollar-sign fa-2x "></i>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -39,7 +43,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">R${{ list_gerenciador.receita_total }}</div>
                     </div>
                     <div class="col-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill:blue">
                             <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
                         </svg>
                         <!--<i class="fas fa-calendar fa-2x text-gray-300"></i>-->
@@ -61,7 +65,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">R${{ list_gerenciador.despesa_total }}</div>
                     </div>
                     <div class="col-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill:red">
                             <path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/>
                         </svg>
                         <!--<i class="fas fa-calendar fa-2x text-gray-300"></i>-->
@@ -85,7 +89,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-comments fa-2x" style="color: black"></i>
+                            <i class="fas fa-comments fa-2x" style="color: #d2d20f"></i>
                         </div>
                     </div>
                 </div>
