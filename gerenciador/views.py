@@ -16,7 +16,11 @@ class IndexView(LoginRequiredMixin, ListView):
     context_object_name = 'list_gerenciador'
 
     def get_queryset(self):
-        gerenciador = Gerenciador.objects.get(id_usuario=self.request.user.id)
+        try:
+            gerenciador = Gerenciador.objects.get(id_usuario=self.request.user.id)
+        except:
+            gerenciador = Gerenciador.objects.create(saldo=0, receita_total=0, despesa_total=0, id_usuario=self.request.user)
+            #gerenciador = Gerenciador.objects.get(id_usuario=self.request.user.id)
         return gerenciador
 
     def get_context_data(self, **kwargs):

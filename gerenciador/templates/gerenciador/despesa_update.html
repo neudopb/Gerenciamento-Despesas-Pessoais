@@ -12,7 +12,12 @@
         <div class="col-xl-2"></div>
         <div class="col-xl-8">
             <div class="card mb-4">
-                <div class="card-header">Editar Despesa</div>
+                <div class="card-header d-sm-flex align-items-center justify-content-between">
+                    <h5 style="color: black">Editar Despesa</h5>
+                    <h3><a onclick="javascript:history.back();" href="#" class="tool pr-1" title="Voltar">
+                        <i class="fas fa-reply" style="color:black;"></i>
+                    </a></h3>
+                </div>
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
@@ -63,9 +68,10 @@
                         {{ form.fixa_ativa }}
                         {{ form.id_gerenciador }}
 
-                        <div class="float-right">
+                        <hr>
+                        <div class="d-flex justify-content-center">
                             {% if not form.pago.value %}
-                                <button class="btn btn-success" id="id_confirm_desp" type="submit">pagar</button>
+                                <button class="btn btn-success mr-2" id="id_confirm_desp" type="submit">pagar</button>
                             {% endif %}
                             <button class="btn btn-primary" type="submit">Atualizar</button>
                         </div>
@@ -85,6 +91,7 @@
         $("#lab_fixa").attr("for", "id_despesa_fixa");
         $("#id_fixa_ativa").attr("hidden", true);
         $("#id_id_gerenciador").attr("hidden", true);
+        $(".tool").tooltip();
     });
 
     $("#id_confirm_desp").click(function () {

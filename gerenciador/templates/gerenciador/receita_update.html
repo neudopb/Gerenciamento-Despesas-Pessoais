@@ -12,7 +12,12 @@
         <div class="col-xl-2"></div>
         <div class="col-xl-8">
             <div class="card mb-4">
-                <div class="card-header">Editar Receita</div>
+                <div class="card-header d-sm-flex align-items-center justify-content-between">
+                    <h5 style="color: black">Editar Receita</h5>
+                    <h3><a onclick="javascript:history.back();" href="#" class="tool pr-1" title="Voltar">
+                        <i class="fas fa-reply" style="color:black;"></i>
+                    </a></h3>
+                </div>
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
@@ -62,10 +67,10 @@
 
                         {{ form.fixa_ativa }}
                         {{ form.id_gerenciador }}
-
-                        <div class="float-right">
+                        <hr>
+                        <div class="d-flex justify-content-center">
                             {% if not form.recebido.value %}
-                                <button class="btn btn-success" id="id_confirm_rec" type="submit">Receber</button>
+                                <button class="btn btn-success mr-2" id="id_confirm_rec" type="submit">Receber</button>
                             {% endif %}
                             <button class="btn btn-primary" type="submit">Atualizar</button>
                         </div>
@@ -80,6 +85,7 @@
 {% block js %}
 <script type="text/javascript">
     $(document).ready(function () {
+        $(".tool").tooltip();
         $("#id_valor").addClass("form-control");
         $("#lab_recebido").attr("for", "id_recebido");
         $("#lab_fixa").attr("for", "id_receita_fixa");
