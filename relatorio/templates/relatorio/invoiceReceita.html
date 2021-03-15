@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Relatorio Geral</title>
+    <title>Relatorio Receitas</title>
     <style type="text/css">
         body {
             font-weight: 200;
@@ -51,17 +51,14 @@
 <body>
 <div class='wrapper'>
     <div class='header'>
-        <p class='title'>Relatorio Geral</p>
+        <p class='title'>Relatorio Receitas</p>
     </div>
     <!--<hr class='hrItem'/>-->
     <div class="details">
         <p><b>Nome: </b>{{ gerenciador.id_usuario.first_name }} {{ gerenciador.id_usuario.last_name }}</p>
         <p><b>E-mail: </b>{{ gerenciador.id_usuario.email }}</p>
-        <p><b>Saldo: </b>{{ gerenciador.saldo }}</p>
         <p><b>Quantidade de Receitas: </b>{{ receitas.count }}</p>
         <p><b>Receita Total: </b>{{ gerenciador.receita_total }}</p>
-        <p><b>Quantidade de Despesas: </b>{{ despesas.count }}</p>
-        <p><b>Despesa Total: </b>{{ gerenciador.despesa_total }}</p>
     </div>
 
     <h2 style="text-align: center">Listagem das Receitas</h2>
@@ -88,40 +85,6 @@
                         <td>Não</td>
                     {% endif %}
                     {% if rec.receita_fixa %}
-                        <td>Sim</td>
-                    {% else %}
-                        <td>Não</td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-
-    <h2 style="text-align: center">Listagem das Despesas</h2>
-    <div>
-        <div class='details'>
-            <table>
-                <tr>
-                    <th colspan="2">Descrição</th>
-                    <th>Categoria</th>
-                    <th>Valor</th>
-                    <th colspan="2">Data</th>
-                    <th>Recebido</th>
-                    <th>Receita Fixa</th>
-                </tr>
-                {% for desp in despesas %}
-                <tr>
-                    <td colspan="2">{{ desp.descricao }}</td>
-                    <td>{{ desp.id_categoria.nome }}</td>
-                    <td>{{ desp.valor }}</td>
-                    <td colspan="2">{{ desp.data }}</td>
-                    {% if desp.pago %}
-                        <td>Sim</td>
-                    {% else %}
-                        <td>Não</td>
-                    {% endif %}
-                    {% if desp.despesa_fixa %}
                         <td>Sim</td>
                     {% else %}
                         <td>Não</td>
