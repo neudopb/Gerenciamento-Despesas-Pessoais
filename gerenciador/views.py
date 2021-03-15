@@ -7,7 +7,9 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import Gerenciador, Categoria, Receita, Despesa
 from .forms import GerenciadorForm, CategoriaForm, ReceitaForm, DespesaForm
 from django.db.models import Q
-from django.db.models import Sum
+from django.db.models import Sum, Count
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 #INDEX
 @method_decorator(login_required, name='dispatch')
@@ -29,6 +31,10 @@ class IndexView(LoginRequiredMixin, ListView):
         context['list_gerenciador'] = gerenc
         context['ttl_rec'] = Receita.objects.filter(Q(id_gerenciador=gerenc.id) & Q(recebido=False)).count()
         context['ttl_desp'] = Despesa.objects.filter(Q(id_gerenciador=gerenc.id) & Q(pago=False)).count()
+        print(gerenc.id)
+        tt = Receita.objects.filter(Q(id_gerenciador=gerenc.id) & Q(recebido=True)).values('data__year', 'data__month', 'id_categoria__nome').annotate(categoria=Count('id'), valor=Sum('valor'))
+        print('adasdasdadadas')
+        print(tt)
         return context
 
 
@@ -48,8 +54,18 @@ class ReceitaCreate(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        form.save()
+        receita = form.save()
         Gerenciador.update_gerenciador(self)
+
+        data = {'usuario':self.request.user, 'receita':receita}
+        plain_text = render_to_string('gerenciador/emails/email_receita_new.txt', data)
+        html_email = render_to_string('gerenciador/emails/email_receita_new.html', data)
+        send_mail("Despess - Receita Cadastrada",
+                  plain_text,
+                  'despess21@gmail.com',
+                  [self.request.user.email],
+                  html_message=html_email)
+
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -115,8 +131,17 @@ class DespesaCreate(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        form.save()
+        despesa = form.save()
         Gerenciador.update_gerenciador(self)
+
+        data = {'usuario': self.request.user, 'despesa': despesa}
+        plain_text = render_to_string('gerenciador/emails/email_despesa_new.txt', data)
+        html_email = render_to_string('gerenciador/emails/email_despesa_new.html', data)
+        send_mail("Despess - Despesa Cadastrada",
+                  plain_text,
+                  'despess21@gmail.com',
+                  [self.request.user.email],
+                  html_message=html_email)
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

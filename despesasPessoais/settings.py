@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'gerenciador',
     'accounts',
+    'relatorio',
     'rest_framework',
     'rest_framework_swagger',
 

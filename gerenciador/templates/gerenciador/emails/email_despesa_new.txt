@@ -1,0 +1,5 @@
+DESPESS
+Olá senhor(a) {{ usuario.first_name }} {{ usuario.last_name }}.
+Sua despesa '{{ despesa.descricao }}', na categoria '{{ despesa.id_categoria }}' e com o valor de R${{ despesa.valor }}, foi cadastrado com sucesso.
+
+Atenciosamente, Equipe DESPESS - 2021

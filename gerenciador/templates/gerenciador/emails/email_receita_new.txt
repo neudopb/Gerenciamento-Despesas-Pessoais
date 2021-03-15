@@ -1,0 +1,5 @@
+DESPESS
+Olá senhor(a) {{ usuario.first_name }} {{ usuario.last_name }}.
+Sua receita '{{ receita.descricao }}', na categoria '{{ receita.id_categoria }}' e com o valor R${{ receita.valor }}, foi cadastrado com sucesso.
+
+Atenciosamente, Equipe DESPESS - 2021
