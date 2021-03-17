@@ -34,7 +34,6 @@ coverage.xml
 .idea/
 
 # djangoSige
-migrations/
 ArquivosXML/
 arquivos/
 setup.py
