@@ -48,10 +48,12 @@ INSTALLED_APPS = [
     'gerenciador',
     'accounts',
     'relatorio',
+
     'rest_framework',
     'rest_framework_swagger',
 
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 ]
 
 SITE_ID = 1
@@ -192,3 +194,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 STATIC_ROOT = os.path.join('PROJECT_ROOT', 'staticfiles')
+
+'''
+id
+472013727262083
+chave
+011a948b9f2bdceef0e4ee38db6c4ad2
+'''

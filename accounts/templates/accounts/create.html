@@ -16,28 +16,54 @@
                     </div>
                     <form class="user" method="post">
                         {% csrf_token %}
+                        {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <b class="text-center">
+                                {% if form.errors.items|length == 1 %}Por Favor, Corrija o Erro Abaixo.{% else %}Por
+                                Favor, Corrija os Erros Abaixo.{% endif %}
+                            </b>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="text" class="form-control form-control-user" id="id_first_name"
                                        name="first_name" placeholder="Nome" required>
+                                <div class="text-danger small">
+                                {{ form.first_name.errors }}
+                                </div>
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control form-control-user" id="id_last_name"
                                        name="last_name" placeholder="Sobrenome" required>
+                                <div class="text-danger small">
+                                    {{ form.last_name.errors }}
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <input type="email" class="form-control form-control-user" id="id_username"
                                    name="username" placeholder="E-mail" required>
+                            <div class="text-danger small">
+                                {{ form.username.errors }}
+                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="password" class="form-control form-control-user"
                                        id="id_password1" name="password1" placeholder="Senha" required>
+                                <div class="text-danger small">
+                                    {{ form.password1.errors }}
+                                </div>
                             </div>
                             <div class="col-sm-6">
                                 <input type="password" class="form-control form-control-user"
                                        id="id_password2" name="password2" placeholder="Repita a Senha" required>
+                                <div class="text-danger small">
+                                    {{ form.password2.errors }}
+                                </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-user btn-block">

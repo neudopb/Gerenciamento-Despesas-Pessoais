@@ -50,7 +50,7 @@ class ReceitaCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["id_gerenc"] = Gerenciador.objects.get(id_usuario=self.request.user.id)
-        context["TipoCategoria"] = Categoria.objects.filter(tipo="Receitas")
+        context["TipoCategoria"] = Categoria.objects.filter(tipo="Receitas").order_by("nome")
         return context
 
     def form_valid(self, form):
@@ -127,7 +127,7 @@ class DespesaCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['id_gerenc'] = Gerenciador.objects.get(id_usuario=self.request.user.id)
-        context["TipoCategoria"] = Categoria.objects.filter(tipo="Despesas")
+        context["TipoCategoria"] = Categoria.objects.filter(tipo="Despesas").order_by("nome")
         return context
 
     def form_valid(self, form):
