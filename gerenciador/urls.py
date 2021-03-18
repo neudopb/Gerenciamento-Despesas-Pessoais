@@ -16,6 +16,8 @@ router.register(r'-despesa', DespesaViewSet)
 urlpatterns = [
     path('api', include(router.urls)),
     path('', IndexView.as_view(), name='index'),
+    path('receitas-chart/', IndexView.receita_chart, name='receitasChart'),
+    path('despesas-chart/', IndexView.despesa_chart, name='despesasChart'),
     path('pendencias/', Pendencias.as_view(), name='pendencias'),
 
     path('receita/create', ReceitaCreate.as_view(), name='createReceita'),

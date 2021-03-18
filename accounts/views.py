@@ -17,7 +17,7 @@ class LogoutView(LogoutView):
 
 class UserCreateView(CreateView):
     model = Usuario
-    success_url = 'accounts:login'
+    success_url = 'login'
     template_name = 'accounts/create.html'
     form_class = UsuarioRegisterForm
 

@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.views.generic import View
 from despesasPessoais.utils import render_to_pdf
-from django.template.loader import get_template
 from gerenciador.models import Receita, Gerenciador, Despesa
 
 class GeneratePDFGeral(View):

@@ -8,8 +8,11 @@ from .models import Gerenciador, Categoria, Receita, Despesa
 from .forms import GerenciadorForm, CategoriaForm, ReceitaForm, DespesaForm
 from django.db.models import Q
 from django.db.models import Sum, Count
+from django.shortcuts import render
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.http import JsonResponse
+
 
 #INDEX
 @method_decorator(login_required, name='dispatch')
@@ -31,12 +34,48 @@ class IndexView(LoginRequiredMixin, ListView):
         context['list_gerenciador'] = gerenc
         context['ttl_rec'] = Receita.objects.filter(Q(id_gerenciador=gerenc.id) & Q(recebido=False)).count()
         context['ttl_desp'] = Despesa.objects.filter(Q(id_gerenciador=gerenc.id) & Q(pago=False)).count()
-        print(gerenc.id)
-        tt = Receita.objects.filter(Q(id_gerenciador=gerenc.id) & Q(recebido=True)).values('data__year', 'data__month', 'id_categoria__nome').annotate(categoria=Count('id'), valor=Sum('valor'))
-        print('adasdasdadadas')
-        print(tt)
+
+
+        #tt = Receita.objects.filter(Q(id_gerenciador=gerenc.id) & Q(recebido=True)).values('data__year', 'data__month', 'id_categoria__nome').annotate(categoria=Count('id'), valor=Sum('valor'))
+        plot1 = Receita.objects.filter(Q(id_gerenciador=gerenc.id) & Q(recebido=True)).annotate(val=Sum('valor'))
+
+        context['list_categ'] = [i.id_categoria for i in plot1]
+        context['list_valor'] = [i.val for i in plot1]
+
         return context
 
+    def receita_chart(request):
+        ger = Gerenciador.objects.get(id_usuario=request.user.id)
+        labels = []
+        data = []
+
+        query = Receita.objects.filter(Q(id_gerenciador=ger.id) & Q(recebido=True)).values('id_categoria__nome').annotate(Sum('valor')).order_by('id_categoria')
+        for set in query:
+            labels.append(set['id_categoria__nome'])
+            data.append(set['valor__sum'])
+
+        return JsonResponse(data={
+            'labels': labels,
+            'data': data,
+        })
+
+    def despesa_chart(request):
+        ger = Gerenciador.objects.get(id_usuario=request.user.id)
+        labels = []
+        data = []
+
+        query = Despesa.objects.filter(Q(id_gerenciador=ger.id) & Q(pago=True)).values('id_categoria__nome').annotate(Sum('valor')).order_by('id_categoria__nome')
+        for set in query:
+            labels.append(set['id_categoria__nome'])
+            data.append(set['valor__sum'])
+
+        print(labels)
+        print(data)
+
+        return JsonResponse(data={
+            'labels2': labels,
+            'data2': data,
+        })
 
 #CRUD RECEITA
 

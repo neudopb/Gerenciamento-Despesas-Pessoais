@@ -13,7 +13,6 @@ cycler==0.10.0
 defusedxml==0.7.1
 dj-database-url==0.5.0
 Django==3.1.5
-django-adminlte3==0.1.6
 django-allauth==0.44.0
 django-bootstrap4==2.3.1
 django-glrm==1.1.3
