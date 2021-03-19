@@ -5,6 +5,9 @@
 {% block content %}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-2 text-gray-800">Receita</h1>
+    <a class="btn btn-primary d-flex float-right mr-5" href="{% url 'gerenciador:createReceita' %}">
+        <i class="fas fa-plus-circle pr-2 pt-1"></i>New Receita
+    </a>
 </div>
 <hr class="mt-0 mb-4"/>
 

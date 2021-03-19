@@ -4,7 +4,14 @@
 
 {% block content %}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard - DESPESS</h1>
+    <div>
+        <a class="btn btn-success d-flex float-left mr-5 col-xl-5 col-md-5 mb-4" href="{% url 'gerenciador:createReceita' %}">
+            <i class="fas fa-plus-circle pr-2 pt-1"></i>New Receita
+        </a>
+        <a class="btn btn-danger d-flex float-lelf mr-5 col-xl-5 col-md-5 mb-4" href="{% url 'gerenciador:createDespesa' %}">
+            <i class="fas fa-plus-circle pr-2 pt-1"></i>New Despesa
+        </a>
+    </div>
     <div class="dropdown mb-4">
         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
@@ -102,7 +109,7 @@
                             <div class="h3 mb-0 font-weight-bold text-gray-800 small">
                                 {% if ttl_rec %} {{ ttl_rec }} receita(s) {% endif %}<br>
                                 {% if ttl_desp %} {{ ttl_desp }} despesa(s) {% endif %}
-                                {% if not ttl_rec or not ttl_desp %} Nenhuma Pendencia {% endif %}
+                                {% if not ttl_rec and not ttl_desp %} Nenhuma Pendencia {% endif %}
                             </div>
                         </div>
                         <div class="col-auto">
@@ -117,8 +124,8 @@
 
 <div class="row">
 
-    <!-- Pie Chart -->
-    <div class="col-xl-3 col-lg-5">
+    <div class="col-xl-1 col-lg-1"></div>
+    <div class="col-xl-4 col-lg-6">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
@@ -134,27 +141,13 @@
         </div>
     </div>
 
-    <!-- Area Chart -->
-    <div class="col-xl-6 col-lg-7">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
-                <h6 class="m-0 font-weight-bold text-primary">Visão Geral dos Ganhos</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="col-xl-2 col-lg-2"></div>
 
-    <div class="col-xl-3 col-lg-5">
+    <div class="col-xl-4 col-lg-6">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
-                <h6 class="m-0 font-weight-bold text-primary">Valor das Despesas por Categoria</h6>
+                <h6 class="m-0 font-weight-bold text-danger">Valor das Despesas por Categoria</h6>
 
             </div>
             <!-- Card Body -->
@@ -173,6 +166,7 @@
 <script type="text/javascript">
 
     $(function () {
+
         var $chartRec = $("#chartReceitas");
 
         $.ajax({
@@ -184,11 +178,11 @@
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: data.labels,
+                        labels: data.labelsR,
                         datasets: [{
-                            data: data.data,
+                            data: data.dataR,
                             /*backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],*/
-                                backgroundColor: ['#0061f2', '#00ac69', '#00cfd5', '#f4a100', '#e81500'],
+                            backgroundColor: ['#0061f2', '#00ac69', '#00cfd5', '#f4a100', '#e81500'],
                             hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
                             hoverBorderColor: "rgba(234, 236, 244, 1)",
                         }],
@@ -228,9 +222,9 @@
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: data.labels2,
+                        labels: data.labelsD,
                         datasets: [{
-                            data: data.data2,
+                            data: data.dataD,
                             /*backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],*/
                             backgroundColor: ['#0061f2', '#00ac69', '#997933', '#e30059', '#00cfd5', '#f4a100', '#6900c7', '#e81500', '#acb5c2'],
                             hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],

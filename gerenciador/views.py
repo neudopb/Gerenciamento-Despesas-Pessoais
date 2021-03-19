@@ -55,8 +55,8 @@ class IndexView(LoginRequiredMixin, ListView):
             data.append(set['valor__sum'])
 
         return JsonResponse(data={
-            'labels': labels,
-            'data': data,
+            'labelsR': labels,
+            'dataR': data,
         })
 
     def despesa_chart(request):
@@ -73,8 +73,8 @@ class IndexView(LoginRequiredMixin, ListView):
         print(data)
 
         return JsonResponse(data={
-            'labels2': labels,
-            'data2': data,
+            'labelsD': labels,
+            'dataD': data,
         })
 
 #CRUD RECEITA
